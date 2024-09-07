@@ -21,7 +21,7 @@ export default async function EventTypesPage() {
               {et.title}
             </Link>
             <span className="text-gray-400 ml-4 text-sm">
-              {process.env.NEXT_PUBLIC_URL}/{profile.username}/{et.uri}
+              {process.env.NEXT_PUBLIC_URL}/{profile?.username}/{et.uri}
             </span>
           </div>
         ))}
