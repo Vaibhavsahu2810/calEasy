@@ -1,5 +1,5 @@
 
-export default function TimeSelect({step}:{step:30|60}) {
+export default function TimeSelect({step}:{step: 30|60}) {
     const times =[];
     for(let i=0; i < 24 ;i++){
         times.push((i < 10 ? '0'+i : i) + ':00')
