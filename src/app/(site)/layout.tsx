@@ -1,7 +1,7 @@
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
-import "../app/globals.css";
+import "../globals.css";
 
 const noto = Noto_Sans({ subsets: ["latin"], weight: ["300", "400", "700"] });
 
