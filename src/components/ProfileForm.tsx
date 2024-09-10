@@ -1,3 +1,4 @@
+"use client"
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react'
@@ -43,6 +44,7 @@ function ProfileForm({existingUsername=""}:{existingUsername?:string}) {
           </div>
         </label>
       </form>
+      
     </>
   );
 }
