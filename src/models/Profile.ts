@@ -12,4 +12,4 @@ const ProfileSchema = new Schema<IProfile>({
   grantId: {type: String},
 });
 
-export const ProfileModel = models?.Profile || model<IProfile>('Profile', ProfileSchema);
+export const ProfileModel = models?.Profile || model<IProfile>('Profile', ProfileSchema);  
