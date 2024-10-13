@@ -1,12 +1,5 @@
-import React from 'react'
-
-function FeaturesPage() {
+export default function FeaturesPage() {
   return (
-    <div>
-      features
-    </div>
-  )
+    <div>features</div>
+  );
 }
-
-export default FeaturesPage
- 

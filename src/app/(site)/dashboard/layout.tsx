@@ -1,4 +1,4 @@
-import DashboardNav from "@/components/DashboardNav";
+import DashboardNav from "@/app/components/DashboardNav";
 import {session} from "@/libs/session";
 import {ProfileModel} from "@/models/Profile";
 import mongoose from "mongoose";
@@ -13,7 +13,7 @@ export default async function DashboardLayout({children}:{children:ReactNode}) {
   const profileDoc = await ProfileModel.findOne({email});
   return (
     <div>
-      <DashboardNav username={profileDoc?.username || 'jkn'} />
+      <DashboardNav username={profileDoc?.username || ''} />
       {children}
     </div>
   );

@@ -1,13 +1,13 @@
-import TimePicker from "@/components/TimePicker";
-import { EventTypeModel } from "@/models/EventType";
-import { ProfileModel } from "@/models/Profile";
-import { Clock, Info } from "lucide-react";
+import TimePicker from "@/app/components/TimePicker";
+import {EventTypeModel} from "@/models/EventType";
+import {ProfileModel} from "@/models/Profile";
+import {Clock, Info} from "lucide-react";
 import mongoose from "mongoose";
 
 type PageProps = {
-  params: {
-    username: string;
-    "booking-uri": string;
+  params:{
+    username:string;
+    "booking-uri":string;
   };
 };
 export default async function BookingPage(props: PageProps) {
@@ -16,14 +16,14 @@ export default async function BookingPage(props: PageProps) {
     username: props.params.username,
   });
   if (!profileDoc) {
-    return "404";
+    return '404';
   }
   const etDoc = await EventTypeModel.findOne({
     email: profileDoc.email,
-    uri: props.params?.["booking-uri"],
+    uri: props.params?.['booking-uri'],
   });
   if (!etDoc) {
-    return "404";
+    return '404';
   }
   return (
     <TimePicker
