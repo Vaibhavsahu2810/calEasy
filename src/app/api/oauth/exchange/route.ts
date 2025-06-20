@@ -1,40 +1,44 @@
-import {nylas, nylasConfig} from "@/libs/nylas";
-import {session} from "@/libs/session";
-import {ProfileModel} from "@/models/Profile";
+// src/app/api/oauth/exchange/route.ts
+import { nylas, nylasConfig } from "@/libs/nylas";
+import { session } from "@/libs/session";
+import { ProfileModel } from "@/models/Profile";
 import mongoose from "mongoose";
-import {redirect} from "next/navigation";
-import {NextRequest} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   console.log("Received callback from Nylas");
-  const url = new URL(req.url as string);
-  const code = url.searchParams.get('code');
 
+  const { searchParams } = new URL(req.url);
+  const code = searchParams.get("code");
   if (!code) {
-    return Response.json("No authorization code returned from Nylas", {status: 400});
+    return NextResponse.json(
+      { error: "No authorization code returned from Nylas" },
+      { status: 400 }
+    );
   }
 
-  const codeExchangePayload = {
-    clientSecret: nylasConfig.apiKey,
-    clientId: nylasConfig.clientId as string,
-    redirectUri: nylasConfig.callbackUri,
+  // Exchange the code for an access token + grantId
+  const tokenResponse = await nylas.auth.exchangeCodeForToken({
+    clientId: nylasConfig.clientId,
+    clientSecret: nylasConfig.clientSecret,
     code,
-  };
+    redirectUri: nylasConfig.callbackUri,
+  });
+  const { grantId, email } = tokenResponse;
 
-  const response = await nylas.auth.exchangeCodeForToken(codeExchangePayload);
-  const { grantId, email } = response;
-
-  await mongoose.connect(process.env.MONGODB_URI as string);
-
-  const profileDoc = await ProfileModel.findOne({email});
-  if (profileDoc) {
-    profileDoc.grantId = grantId;
-    await profileDoc.save();
+  // Persist grantId in MongoDB
+  await mongoose.connect(process.env.MONGODB_URI!);
+  const existing = await ProfileModel.findOne({ email });
+  if (existing) {
+    existing.grantId = grantId;
+    await existing.save();
   } else {
-    await ProfileModel.create({email, grantId});
+    await ProfileModel.create({ email, grantId });
   }
 
-  await session().set('email', email);
+  // Store the user’s email in your session (adjust to your session API)
+  const res = NextResponse.redirect("/");
+  await session().set("email", email);
 
-  redirect('/');
+  return res;
 }
