@@ -1,4 +1,3 @@
-// src/app/api/oauth/exchange/route.ts
 import { nylas, nylasConfig } from "@/libs/nylas";
 import { session } from "@/libs/session";
 import { ProfileModel } from "@/models/Profile";
@@ -17,7 +16,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // Exchange the code for an access token + grantId
   const tokenResponse = await nylas.auth.exchangeCodeForToken({
     clientId: nylasConfig.clientId,
     clientSecret: nylasConfig.clientSecret,
@@ -26,7 +24,6 @@ export async function GET(req: NextRequest) {
   });
   const { grantId, email } = tokenResponse;
 
-  // Persist grantId in MongoDB
   await mongoose.connect(process.env.MONGODB_URI!);
   const existing = await ProfileModel.findOne({ email });
   if (existing) {
@@ -36,7 +33,6 @@ export async function GET(req: NextRequest) {
     await ProfileModel.create({ email, grantId });
   }
 
-  // Store the user’s email in your session (adjust to your session API)
   const res = NextResponse.redirect("/");
   await session().set("email", email);
 
