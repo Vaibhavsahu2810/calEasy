@@ -1,10 +1,10 @@
-import {nylas, nylasConfig} from "@/libs/nylas";
-import {redirect} from "next/navigation";
+import { nylas, nylasConfig } from "@/libs/nylas";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   const authUrl = nylas.auth.urlForOAuth2({
     clientId: nylasConfig.clientId as string,
     redirectUri: nylasConfig.callbackUri,
   });
-  return redirect(authUrl);
+  return NextResponse.redirect(authUrl);
 }
