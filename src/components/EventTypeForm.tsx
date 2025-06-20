@@ -44,8 +44,7 @@ export default function EventTypeForm({
       if (!newBookingTimes[day]) {
         newBookingTimes[day] = { from: "00:00", to: "00:00", active: false };
       }
-
-      // @ts-ignore
+      // @ts-expect-error: TypeScript can't infer the property type correctly for dynamic property assignment
       newBookingTimes[day][prop] = val;
 
       return newBookingTimes;
@@ -124,7 +123,7 @@ export default function EventTypeForm({
                     />
                     <span>-</span>
                     <TimeSelect
-                      value={bookingTimes?.[day]?.to || "00:00" as string}
+                      value={bookingTimes?.[day]?.to || ("00:00" as string)}
                       onChange={(val: string | boolean) =>
                         handleBookingTimeChange(day, val, "to")
                       }

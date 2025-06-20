@@ -1,5 +1,4 @@
 'use server'
-import DashboardNav from "@/app/components/DashboardNav";
 import {session} from "@/libs/session";
 import {EventTypeModel} from "@/models/EventType";
 import {ProfileModel} from "@/models/Profile";

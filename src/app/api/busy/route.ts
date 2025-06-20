@@ -1,20 +1,20 @@
-import {nylas} from "@/libs/nylas";
-import {ProfileModel} from "@/models/Profile";
+import { nylas } from "@/libs/nylas";
+import { ProfileModel } from "@/models/Profile";
 import mongoose from "mongoose";
-import {NextRequest} from "next/server";
-import {TimeSlot} from "nylas";
+import { NextRequest } from "next/server";
+import { TimeSlot } from "nylas";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
-  const username = url.searchParams.get('username');
-  const from = new Date(url.searchParams.get('from') as string);
-  const to = new Date(url.searchParams.get('to') as string);
+  const username = url.searchParams.get("username");
+  const from = new Date(url.searchParams.get("from") as string);
+  const to = new Date(url.searchParams.get("to") as string);
 
   await mongoose.connect(process.env.MONGODB_URI as string);
-  const profileDoc = await ProfileModel.findOne({username});
+  const profileDoc = await ProfileModel.findOne({ username });
 
   if (!profileDoc) {
-    return Response.json('invalid username and/or bookingUri', {status: 404});
+    return Response.json("invalid username and/or bookingUri", { status: 404 });
   }
 
   const nylasBusyResult = await nylas.calendars.getFreeBusy({
@@ -26,12 +26,12 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  let busySlots:TimeSlot[] = [];
+  let busySlots: TimeSlot[] = [];
   if (nylasBusyResult.data?.[0]) {
-    // @ts-ignore
+    // @ts-expect-error: TypeScript doesn't infer that newBookingTimes[day] exists after the null check
     const slots = nylasBusyResult.data?.[0]?.timeSlots as TimeSlot[];
-    // @ts-ignore
-    busySlots = slots.filter(slot => slot.status === 'busy');
+    // @ts-expect-error: TypeScript doesn't infer that newBookingTimes[day] exists after the null check
+    busySlots = slots.filter((slot) => slot.status === "busy");
   }
 
   return Response.json(busySlots);

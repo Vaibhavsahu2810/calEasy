@@ -1,7 +1,6 @@
 import TimePicker from "@/app/components/TimePicker";
 import {EventTypeModel} from "@/models/EventType";
 import {ProfileModel} from "@/models/Profile";
-import {Clock, Info} from "lucide-react";
 import mongoose from "mongoose";
 
 type PageProps = {

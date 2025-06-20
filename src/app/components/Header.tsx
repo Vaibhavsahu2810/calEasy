@@ -11,7 +11,7 @@ export default async function Header() {
       <div className="flex items-center gap-10">
         <Link href={'/'} className="text-blue-600 font-bold text-2xl flex gap-1 items-center">
           <CalendarDays size={24}/>
-          Calendix
+          CalEasy
         </Link>
         <nav className="flex gap-4">
           <Link href={'/features'}>Features</Link>

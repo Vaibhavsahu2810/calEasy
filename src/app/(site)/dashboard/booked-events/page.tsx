@@ -2,7 +2,7 @@ import {session} from "@/libs/session";
 import {BookingModel} from "@/models/Booking";
 import {EventTypeModel} from "@/models/EventType";
 import {format} from "date-fns";
-import {Calendar, CircleUser, NotepadText, User} from "lucide-react";
+import {Calendar, CircleUser, NotepadText} from "lucide-react";
 import mongoose from "mongoose";
 
 
