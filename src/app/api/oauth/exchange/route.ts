@@ -33,7 +33,12 @@ export async function GET(req: NextRequest) {
     await ProfileModel.create({ email, grantId });
   }
 
+  console.log("Setting session email:", email);
   await session().set("email", email);
+  
+  // Verify session was set
+  const savedEmail = await session().get("email");
+  console.log("Verified session email:", savedEmail);
   
   return NextResponse.redirect(new URL("/", req.url));
 }

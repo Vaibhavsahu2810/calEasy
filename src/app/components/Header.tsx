@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default async function Header() {
   const email = await session().get('email');
+  console.log("Header - email from session:", email);
   return (
     <header className="flex gap-4 justify-between py-6 text-gray-600">
       <div className="flex items-center gap-10">

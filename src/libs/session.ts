@@ -10,6 +10,9 @@ export const session = nextAppSession<MySessionData>({
   name: "caleasy_session",
   secret: process.env.SECRET,
   cookie: {
-    httpOnly: false,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   },
 });
