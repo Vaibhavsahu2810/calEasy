@@ -10,7 +10,7 @@ export const session = nextAppSession<MySessionData>({
   name: "caleasy_session",
   secret: process.env.SECRET,
   cookie: {
-    httpOnly: true,
+    httpOnly: false, // Try with httpOnly false for serverless
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 7, // 7 days

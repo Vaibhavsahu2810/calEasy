@@ -43,5 +43,8 @@ export async function GET(req: NextRequest) {
   const savedEmail = await session().get("email");
   console.log("Verified session email:", savedEmail);
   
-  return NextResponse.redirect(new URL("/", req.url));
+  // Try redirecting to a success page that sets session on client side
+  const redirectUrl = new URL("/auth-success", req.url);
+  redirectUrl.searchParams.set("email", email);
+  return NextResponse.redirect(redirectUrl);
 }
