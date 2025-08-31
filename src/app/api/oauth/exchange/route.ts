@@ -18,9 +18,9 @@ export async function GET(req: NextRequest) {
 
   const tokenResponse = await nylas.auth.exchangeCodeForToken({
     clientId: nylasConfig.clientId,
-    clientSecret: nylasConfig.clientSecret,
-    code,
+    clientSecret: nylasConfig.apiKey,
     redirectUri: nylasConfig.callbackUri,
+    code,
   });
   const { grantId, email } = tokenResponse;
 
@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
     await ProfileModel.create({ email, grantId });
   }
 
-  const res = NextResponse.redirect("/");
+  const res = NextResponse.redirect(new URL("/", req.url));
   await session().set("email", email);
 
   return res;
