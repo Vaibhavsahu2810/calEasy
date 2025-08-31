@@ -34,6 +34,9 @@ export async function GET(req: NextRequest) {
   }
 
   console.log("Setting session email:", email);
+  console.log("Environment:", process.env.NODE_ENV);
+  console.log("SECRET available:", !!process.env.SECRET);
+  
   await session().set("email", email);
   
   // Verify session was set
