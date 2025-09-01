@@ -1,7 +1,7 @@
 'use client';
 import Link from "next/link";
 
-export default function RightNav({email}:{email:string}) {
+export default function RightNav({email}:{email:string|null}) {
   const hasLoggedOut = typeof window !== 'undefined' && window.location.href.includes('logged-out');
   if (email && !hasLoggedOut) {
     return (

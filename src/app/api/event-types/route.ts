@@ -1,4 +1,4 @@
-import {session} from "@/libs/session";
+import {getSessionEmail} from "@/libs/getSessionEmail";
 import {EventTypeModel} from "@/models/EventType";
 import mongoose from "mongoose";
 import {revalidatePath} from "next/cache";
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   await mongoose.connect(process.env.MONGODB_URI as string);
   const data = await req.json();
   data.uri = uriFromTitle(data.title);
-  const email = await session().get('email');
+  const email = await getSessionEmail(req);
   if (email) {
     const eventTypeDoc = await EventTypeModel.create({email, ...data});
     revalidatePath('/dashboard/event-types');
@@ -25,7 +25,7 @@ export async function PUT(req: NextRequest) {
   await mongoose.connect(process.env.MONGODB_URI as string);
   const data = await req.json();
   data.uri = uriFromTitle(data.title);
-  const email = await session().get('email');
+  const email = await getSessionEmail(req);
   const id = data.id;
   if (email && id) {
     const eventTypeDoc = await EventTypeModel.updateOne(

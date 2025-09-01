@@ -1,4 +1,4 @@
-import {session} from "@/libs/session";
+import {getSessionEmail} from "@/libs/getSessionEmail";
 import {BookingModel} from "@/models/Booking";
 import {EventTypeModel} from "@/models/EventType";
 import {format} from "date-fns";
@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 
 export default async function DashboardPage() {
   await mongoose.connect(process.env.MONGODB_URI as string);
-  const email = await session().get('email');
+  const email = await getSessionEmail();
   const eventTypeDocs = await EventTypeModel.find({email});
   const bookedEvents = await BookingModel.find({
     eventTypeId: eventTypeDocs.map(doc =>  doc._id),

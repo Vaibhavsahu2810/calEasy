@@ -1,5 +1,5 @@
 'use server'
-import {session} from "@/libs/session";
+import {getSessionEmail} from "@/libs/getSessionEmail";
 import {EventTypeModel} from "@/models/EventType";
 import {ProfileModel} from "@/models/Profile";
 import {Plus} from "lucide-react";
@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default async function EventTypesPage() {
   await mongoose.connect(process.env.MONGODB_URI as string);
-  const email = await session().get('email');
+  const email = await getSessionEmail();
   const eventTypes = await EventTypeModel.find({email});
   const profile = await ProfileModel.findOne({email});
   return (
